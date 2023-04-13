@@ -32,10 +32,9 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 public @interface DataPrepperPlugin {
     /**
-     *
      * @return Name of the plugin which should be unique for the type
      */
-    String name();
+    java.lang.String name();
 
     /**
      * The class type for this plugin.
@@ -43,7 +42,7 @@ public @interface DataPrepperPlugin {
      * @return The Java class
      * @since 1.2
      */
-    Class<?> pluginType();
+    java.lang.Class pluginType();
 
     /**
      * The configuration type which the plugin takes in the constructor.
