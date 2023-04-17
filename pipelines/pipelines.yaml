@@ -1,0 +1,11 @@
+opensearch-pipeline:
+  source:
+    opensearch:
+      hosts : "http://localhost:9200/"
+      index : "movies"
+      datasource : "opensearch"
+      keep_alive : "5m"
+      query : ""
+  sink:
+    - stdout:
+
