@@ -1,0 +1,25 @@
+opensearch-pipeline:
+  source:
+    opensearchsource:
+      host: "http://localhost:9200/"
+      include_indexes: "emp-index"
+      exclude_indexes: ""
+      max_retry: "3"
+      metrics: ""
+      expression : ""
+      schedule : ""
+      point-in-time:
+        keep_alive: "5m"
+        prefrence : ""
+        routing : ""
+        search_after : ""
+        size : "100"
+        sort:
+          order : "asc"
+      slice-scroll:
+        scroll : "10m"
+        slice_id : "0"
+        slice_max : "10"
+        size : "10000"
+  sink:
+    - stdout:
