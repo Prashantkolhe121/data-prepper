@@ -6,6 +6,8 @@ opensearch-pipeline:
       datasource : "opensearch"
       keep_alive : "5m"
       query : ""
+      scroll : "10m"
+      size : "10000"
   sink:
     - stdout:
 

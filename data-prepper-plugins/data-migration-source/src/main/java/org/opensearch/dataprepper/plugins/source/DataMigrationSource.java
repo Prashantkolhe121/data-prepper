@@ -79,8 +79,8 @@ public class DataMigrationSource implements Source<Record<Event>> {
     }
 
     private void checkApi(DataMigrationSourceConfig dataMigrationSourceConfig, String datasource, String osVersion) throws IOException {
-
-        if(datasource!=null && datasource.equalsIgnoreCase("opensearch"))
+     //code for PIT API
+      /*  if(datasource!=null && datasource.equalsIgnoreCase("opensearch"))
         {
           OpenSearchClient client =  opensearchClientConnection(dataMigrationSourceConfig);
           System.out.println("Search Data : ");
@@ -104,6 +104,37 @@ public class DataMigrationSource implements Source<Record<Event>> {
             System.out.println("PIT Response is :  " + pitResponse);
 
         }
+*/
+   //Code for scroll API
+        if(datasource!=null && datasource.equalsIgnoreCase("opensearch"))
+        {
+            OpenSearchClient client =  opensearchClientConnection(dataMigrationSourceConfig);
+            System.out.println("Search Data : ");
+            //trying to call  By using SearchResponse
+            SearchResponse<ObjectNode> searchResponse = client.search(
+                    b -> b.index(dataMigrationSourceConfig.getIndex()), ObjectNode.class);
+            for (int i = 0; i < searchResponse.hits().hits().size(); i++) {
+                System.out.println(searchResponse.hits().hits().get(i).source());
+            }
+
+            //by using _transport().performRequest()
+            System.out.println("---------------------SCROLL ID Using Java Client----------------");
+            ScrollRequest scrollRequest = new ScrollRequest(new ScrollBuilder());
+           /* Map<String,String> params = new HashMap<>();
+            scrollRequest.("scroll",dataMigrationSourceConfig.getScroll());
+            params.put("size",dataMigrationSourceConfig.getSize());*/
+            scrollRequest.setSize(dataMigrationSourceConfig.getSize());
+
+
+            System.out.println("scrollRequest  : " + scrollRequest);
+            System.out.println("end point  : " +  ScrollRequest.ENDPOINT.requestUrl(scrollRequest));
+          //  System.out.println("query para : " + ScrollRequest.ENDPOINT.queryParameters(scrollRequest));
+            ScrollResponse  scrollResponse =  client._transport().performRequest(scrollRequest,ScrollRequest.ENDPOINT,client._transportOptions());
+            System.out.println("Scroll endpoint :  " + ScrollRequest.ENDPOINT);
+            System.out.println("Scroll Response :  " + scrollResponse);
+
+        }
+
     }
 
     private String getDataSource(DataMigrationSourceConfig dataMigrationSourceConfig) throws IOException, ParseException {

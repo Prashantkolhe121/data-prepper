@@ -14,6 +14,19 @@ public class DataMigrationSourceConfig {
     @JsonProperty("index")
     private String index;
 
+    @JsonProperty("scroll")
+    private String scroll;
+    @JsonProperty("size")
+    private String size;
+
+    public String getScroll() {
+        return scroll;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
     public String getQuery() {
         return query;
     }
